@@ -161,7 +161,7 @@ def build_vm_hash(vm_hash)
 
     if vm_hash["TEMPLATE"]["NIC"]
         [vm_hash["TEMPLATE"]["NIC"]].flatten.each do |nic|
-            nics << nic.select{|k,v| NIC_VALID_KEYS.include?(k)}
+            nics << Hash[nic.select{|k,v| NIC_VALID_KEYS.include?(k)}]
         end
     end
 
@@ -171,9 +171,9 @@ def build_vm_hash(vm_hash)
             "ID"            => vm_hash["ID"],
             "STATE"         => vm_hash["STATE"],
             "LCM_STATE"     => vm_hash["LCM_STATE"],
-            "USER_TEMPLATE" => vm_hash["USER_TEMPLATE"].select {|k,v|
+            "USER_TEMPLATE" => Hash[vm_hash["USER_TEMPLATE"].select {|k,v|
                                     !USER_TEMPLATE_INVALID_KEYS.include?(k)
-                                },
+                                }],
             "TEMPLATE"  => {
                 "NIC" => nics
             }
